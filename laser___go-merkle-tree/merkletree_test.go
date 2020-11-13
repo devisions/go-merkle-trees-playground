@@ -10,6 +10,7 @@ import (
 
 // drops the unprintable prefix
 func bytesToStrForTest(xs []byte) string {
+
 	var xs2 []byte
 
 	for i, c := range xs {
@@ -27,7 +28,7 @@ func trimNewlines(str string) string {
 
 func expectStrEqual(t *testing.T, actual string, expected string) {
 	if trimNewlines(actual) != expected {
-		fmt.Println(fmt.Sprintf("=====ACTUAL======\n\n%s\n\n=====EXPECTED======\n\n%s\n", actual, expected))
+		fmt.Printf("=====ACTUAL======\n\n%s\n\n=====EXPECTED======\n\n%s\n", actual, expected)
 		t.Fail()
 	}
 }

@@ -50,6 +50,7 @@ type checksumToStrFunc func([]byte) string
 ///////////////
 
 func NewLeaf(sumFunc func(bool, []byte) []byte, block []byte) *Leaf {
+
 	return &Leaf{
 		checksum: sumFunc(true, block),
 		block:    block,
@@ -57,6 +58,7 @@ func NewLeaf(sumFunc func(bool, []byte) []byte, block []byte) *Leaf {
 }
 
 func NewBranch(sumFunc func(bool, []byte) []byte, left Node, right Node) *Branch {
+
 	return &Branch{
 		checksum: sumFunc(false, append(left.GetChecksum(), right.GetChecksum()...)),
 		left:     left,
@@ -65,6 +67,7 @@ func NewBranch(sumFunc func(bool, []byte) []byte, left Node, right Node) *Branch
 }
 
 func NewTree(providedSumFunc func([]byte) []byte, blocks [][]byte) *Tree {
+
 	levels := int(math.Ceil(math.Log2(float64(len(blocks)+len(blocks)%2))) + 1)
 
 	sumFunc := func(isLeaf bool, xs []byte) []byte {
@@ -126,6 +129,7 @@ func (l *Leaf) GetChecksum() []byte {
 }
 
 func (t *Tree) VerifyProof(p *Proof) bool {
+
 	index := t.getLeafIdxByChecksum(p.target)
 
 	if index == -1 {
@@ -147,6 +151,7 @@ func (t *Tree) VerifyProof(p *Proof) bool {
 }
 
 func (t *Tree) getLeafIdxByChecksum(checksum []byte) int {
+
 	index := -1
 	for i := 0; i < len(t.rows[0]); i++ {
 		if bytes.Equal(checksum, t.rows[0][i].GetChecksum()) {
@@ -158,7 +163,7 @@ func (t *Tree) getLeafIdxByChecksum(checksum []byte) int {
 }
 
 func (t *Tree) CreateProof(leafChecksum []byte) (*Proof, error) {
-	
+
 	var parts []*ProofPart
 
 	index := t.getLeafIdxByChecksum(leafChecksum)
@@ -211,7 +216,8 @@ func (p *Proof) Equals(o *Proof) bool {
 	ok := true
 
 	for i := 0; i < len(p.parts); i++ {
-		ok = ok && p.parts[i].isRight && o.parts[i].isRight && bytes.Equal(p.parts[i].checksum, o.parts[i].checksum)
+		ok = ok && p.parts[i].isRight && o.parts[i].isRight &&
+			bytes.Equal(p.parts[i].checksum, o.parts[i].checksum)
 	}
 
 	return ok
