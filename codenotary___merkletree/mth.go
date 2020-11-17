@@ -49,7 +49,7 @@ func MTH(D [][]byte) [sha256.Size]byte {
 // Reference implementation as per https://tools.ietf.org/html/rfc6962#section-2.1.1
 func MPath(m uint64, D [][]byte) (path [][sha256.Size]byte) {
 	n := uint64(len(D))
-	if !(0 <= m && m < n) {
+	if !(m < n) {
 		return
 	}
 

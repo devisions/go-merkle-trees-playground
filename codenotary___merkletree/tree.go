@@ -110,7 +110,7 @@ func (p Path) ToSlice() [][]byte {
 	return out
 }
 
-// FromSlice sets _Path_ from the give _slice_.
+// FromSlice sets _Path_ from the given _slice_.
 func (p *Path) FromSlice(slice [][]byte) {
 	pp := make([][sha256.Size]byte, len(slice))
 	for i, h := range slice {
